@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My E-Commerce Store</title>
+  <style>
+    /* Global Styles */
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+    }
+    header {
+      background: #333;
+      color: #fff;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header h1 { margin: 0; font-size: 24px; }
+    nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+    }
+    nav ul li { margin-left: 20px; }
+    nav ul li a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 20px;
+    }
+    .hidden { display: none; }
+
+    /* Product Grid */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      grid-gap: 20px;
+    }
+    .product-card {
+      background: #fff;
+      padding: 15px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      border-radius: 5px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .product-card img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 5px;
+    }
+    .product-card h3 {
+      margin: 10px 0 5px;
+    }
+    .product-card p {
+      flex-grow: 1;
+    }
+    .product-card button {
+      background: #28a745;
+      color: #fff;
+      border: none;
+      padding: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 5px;
+    }
+    .product-card button:hover { background: #218838; }
+
+    /* Cart Styles */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+    }
+    table th, table td {
+      padding: 10px;
+      border: 1px solid #ddd;
+      text-align: left;
+    }
+    table th { background: #f8f8f8; }
+    .cart-actions {
+      margin-top: 20px;
+      text-align: right;
+    }
+    .cart-actions button {
+      background: #007bff;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .cart-actions button:hover { background: #0069d9; }
+
+    /* Modal Styles */
+    .modal {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.6);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    .modal-content {
+      background: #fff;
+      padding: 20px;
+      max-width: 600px;
+      width: 90%;
+      border-radius: 5px;
+      position: relative;
+    }
+    .close-modal {
+      position: absolute;
+      right: 10px;
+      top: 10px;
+      cursor: pointer;
+      font-size: 18px;
+      font-weight: bold;
+    }
+    /* Responsive */
+    @media (max-width: 768px) {
+      header { flex-direction: column; align-items: flex-start; }
+      nav ul { flex-direction: column; }
+      nav ul li { margin: 10px 0; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>My E-Commerce Store</h1>
+    <nav>
+      <ul>
+        <li><a onclick="navigate('home')">Home</a></li>
+        <li><a onclick="navigate('shop')">Shop</a></li>
+        <li><a onclick="navigate('cart')">Cart (<span id="cart-count">0</span>)</a></li>
+      </ul>
+    </nav>
+  </header>
+  <div class="container">
+    <!-- Home Section -->
+    <section id="home">
+      <h2>Welcome to Our Store</h2>
+      <p>Discover the best products at amazing prices. Explore our wide range of products and enjoy a seamless shopping experience.</p>
+      <button onclick="navigate('shop')" style="padding: 10px 20px; background: #007bff; color: #fff; border: none; border-radius:5px; cursor: pointer;">Start Shopping</button>
+    </section>
+    <!-- Shop Section -->
+    <section id="shop" class="hidden">
+      <h2>Our Products</h2>
+      <div class="product-grid" id="product-grid">
+        <!-- Product Cards will be inserted here dynamically -->
+      </div>
+    </section>
+    <!-- Cart Section -->
+    <section id="cart" class="hidden">
+      <h2>Your Shopping Cart</h2>
+      <div id="cart-container">
+        <table id="cart-table">
+          <thead>
+            <tr>
+              <th>Product</th>
+              <th>Price</th>
+              <th>Qty</th>
+              <th>Total</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Cart items will be inserted here dynamically -->
+          </tbody>
+        </table>
+        <div class="cart-actions">
+          <h3>Total: $<span id="cart-total">0.00</span></h3>
+          <button onclick="checkout()">Checkout</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Product Detail Modal -->
+  <div class="modal" id="product-modal">
+    <div class="modal-content">
+      <span class="close-modal" onclick="closeModal()">&times;</span>
+      <div id="modal-body">
+        <!-- Modal content will be inserted here dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Sample product data with a wide variety
+    const products = [
+      // Electronics
+      {id: 1, name: "Smartphone", price: 299.99, description: "A powerful smartphone with all the latest features.", image: "smartphone.jpg"},
+      {id: 2, name: "Laptop", price: 799.99, description: "High performance laptop for work and gaming.", image: 'laptop.jpg'},
+      {id: 3, name: "Headphones", price: 99.99, description: "Noise cancelling headphones for immersive sound.", image: "headset.jpg"},
+      {id: 4, name: "Smartwatch", price: 199.99, description: "Stay connected and track your fitness with this smartwatch.", image: "smartwatch.jpg"},
+      {id: 5, name: "Camera", price: 499.99, description: "Capture stunning photos and videos with this high-resolution camera.", image: "camera.jpg"},
+      {id: 6, name: "Tablet", price: 399.99, description: "Portable tablet perfect for work and entertainment.", image: "tablet.jpg"},
+      {id: 7, name: "Television", price: 599.99, description: "Ultra HD television with smart features.", image: "tv.jpg"},
+     
+   
+      // Clothing
+      {id: 11, name: "T-Shirt", price: 19.99, description: "Comfortable cotton T-shirt available in multiple colors.", image: "shirt.jpg"},
+      {id: 12, name: "Jeans", price: 49.99, description: "Stylish and durable denim jeans.", image: "Jean.jpg"},
+      {id: 13, name: "Jacket", price: 89.99, description: "Warm and trendy jacket for all seasons.", image: "Jacket.jpg"},
+      {id: 14, name: "Dress", price: 59.99, description: "Elegant dress suitable for any occasion.", image: "Dress.jpg"},
+      {id: 15, name: "Sneakers", price: 69.99, description: "Comfortable and stylish sneakers.", image: "Sneakers.jpg"},
+
+      // Home Appliances
+      {id: 16, name: "Refrigerator", price: 999.99, description: "Energy-efficient refrigerator with a spacious interior.", image: "ref.html"},
+      {id: 17, name: "Washing Machine", price: 649.99, description: "High capacity washing machine with multiple wash programs.", image: "washingmachine.jpg"},
+      {id: 18, name: "Microwave", price: 149.99, description: "Compact microwave oven with multiple settings.", image: "microwave.jpg"},
+      {id: 19, name: "Air Conditioner", price: 399.99, description: "Efficient air conditioner to keep you cool in summer.", image: "airconditioner.jpg"},
+      {id: 20, name: "Vacuum Cleaner", price: 129.99, description: "Powerful vacuum cleaner for a clean home.", image: "vacuum.jpg"},
+
+      // Beauty & Health
+      {id: 21, name: "Perfume", price: 59.99, description: "Elegant perfume with a captivating scent.", image: "Perfume.jpg"},
+     
+    ];
+
+    let cart = [];
+
+    // Navigation: Show the selected section and hide others
+    function navigate(section) {
+      document.querySelectorAll("section").forEach(sec => sec.classList.add("hidden"));
+      document.getElementById(section).classList.remove("hidden");
+      if (section === "shop") renderProducts();
+      if (section === "cart") renderCart();
+    }
+
+    // Render product grid
+    function renderProducts() {
+      const grid = document.getElementById("product-grid");
+      grid.innerHTML = "";
+      products.forEach(product => {
+        const card = document.createElement("div");
+        card.className = "product-card";
+        card.innerHTML = `
+          <img src="${product.image}" alt="${product.name}">
+          <h3>${product.name}</h3>
+          <p>$${product.price.toFixed(2)}</p>
+          <p>${product.description}</p>
+          <button onclick="addToCart(${product.id})">Add to Cart</button>
+          <button onclick="openModal(${product.id})" style="background:#17a2b8;">View Details</button>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    // Add a product to the cart
+    function addToCart(productId) {
+      const product = products.find(p => p.id === productId);
+      const existing = cart.find(item => item.id === productId);
+      if (existing) {
+        existing.quantity += 1;
+      } else {
+        cart.push({ ...product, quantity: 1 });
+      }
+      updateCartCount();
+      alert(product.name + " added to cart!");
+    }
+
+    // Update the cart count in the header
+    function updateCartCount() {
+      const count = cart.reduce((acc, item) => acc + item.quantity, 0);
+      document.getElementById("cart-count").innerText = count;
+    }
+
+    // Render the cart items in the cart section
+    function renderCart() {
+      const tbody = document.querySelector("#cart-table tbody");
+      tbody.innerHTML = "";
+      cart.forEach(item => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${item.name}</td>
+          <td>$${item.price.toFixed(2)}</td>
+          <td>
+            <input type="number" value="${item.quantity}" min="1" onchange="updateQuantity(${item.id}, this.value)">
+          </td>
+          <td>$${(item.price * item.quantity).toFixed(2)}</td>
+          <td>
+            <button onclick="removeFromCart(${item.id})" style="background:#dc3545; color:#fff; border:none; padding:5px 10px; border-radius:3px;">Remove</button>
+          </td>
+        `;
+        tbody.appendChild(row);
+      });
+      updateCartTotal();
+    }
+
+    // Update quantity for an item in the cart
+    function updateQuantity(productId, qty) {
+      const item = cart.find(item => item.id === productId);
+      item.quantity = parseInt(qty);
+      renderCart();
+      updateCartCount();
+    }
+
+    // Remove an item from the cart
+    function removeFromCart(productId) {
+      cart = cart.filter(item => item.id !== productId);
+      renderCart();
+      updateCartCount();
+    }
+
+    // Update the total cost in the cart
+    function updateCartTotal() {
+      const total = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
+      document.getElementById("cart-total").innerText = total.toFixed(2);
+    }
+
+    // Simulate a checkout process
+    function checkout() {
+      if (cart.length === 0) {
+        alert("Your cart is empty!");
+        return;
+      }
+      if (confirm("Proceed to checkout?")) {
+        alert("Thank you for your purchase!");
+        cart = [];
+        renderCart();
+        updateCartCount();
+        navigate("shop");
+      }
+    }
+
+    // Open the modal with product details
+    function openModal(productId) {
+      const product = products.find(p => p.id === productId);
+      const modalBody = document.getElementById("modal-body");
+      modalBody.innerHTML = `
+        <h2>${product.name}</h2>
+        <img src="${product.image}" alt="${product.name}" style="max-width:100%; border-radius:5px;">
+        <p><strong>Price:</strong> $${product.price.toFixed(2)}</p>
+        <p>${product.description}</p>
+        <button onclick="addToCart(${product.id})" style="background:#28a745; color:#fff; border:none; padding:10px 20px; border-radius:5px; cursor:pointer;">Add to Cart</button>
+      `;
+      document.getElementById("product-modal").style.display = "flex";
+    }
+
+    // Close the product detail modal
+    function closeModal() {
+      document.getElementById("product-modal").style.display = "none";
+    }
+
+    // On initial load, display the Home section
+    navigate("home");
+  </script>
+</body>
+</html>

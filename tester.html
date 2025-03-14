@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="A bulky, responsive, SEO-friendly multi-page website offering a dynamic design and smooth user experience." />
+  <link rel="canonical" href="https://www.example.com/" />
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap" rel="stylesheet" />
+  <title>Cee Codes - The Ultimate Experience</title>
+  <style>
+    /* CSS Variables */
+    :root {
+      --primary-color: #333;
+      --accent-color: #008cba;
+      --bg-color: #fff;
+      --text-color: #333;
+      --overlay-color: rgba(0, 0, 0, 0.5);
+      --transition-speed: 0.3s;
+      --easing: ease-in-out;
+    }
+    /* Dark Mode Variables */
+    body.dark-mode {
+      background-color: #000;
+      --bg-color: #333;
+      --text-color: #fff;
+    }
+    /* Global Styles */
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Montserrat', sans-serif;
+      background: var(--bg-color);
+      color: var(--text-color);
+      scroll-behavior: smooth;
+      transition: background var(--transition-speed), color var(--transition-speed);
+    }
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+    /* Skip to Content Link */
+    .skip-link {
+      position: absolute;
+      top: -40px;
+      left: 0;
+      background: var(--accent-color);
+      color: #fff;
+      padding: 8px;
+      z-index: 100;
+      transition: top var(--transition-speed);
+    }
+    .skip-link:focus {
+      top: 0;
+    }
+    /* Header and Navigation */
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      z-index: 1000;
+      transition: background var(--transition-speed);
+    }
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px 30px;
+    }
+    .logo {
+      color: #fff;
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+    .nav-links {
+      list-style: none;
+      display: flex;
+      margin: 0;
+      padding: 0;
+    }
+    .nav-links li {
+      margin: 0 15px;
+    }
+    .nav-links li a {
+      color: #fff;
+      font-size: 18px;
+      transition: color var(--transition-speed);
+    }
+    .nav-links li a:hover {
+      color: var(--accent-color);
+    }
+    .hamburger {
+      background: var(--accent-color);
+      border: none;
+      color: #fff;
+      padding: 10px 15px;
+      font-size: 18px;
+      border-radius: 4px;
+      cursor: pointer;
+      display: none;
+      transition: background var(--transition-speed);
+    }
+    .hamburger:hover {
+      background: #007aa3;
+    }
+    /* Mobile Navigation */
+    .mobile-nav {
+      display: none;
+      flex-direction: column;
+      background: rgba(0, 0, 0, 0.9);
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height var(--transition-speed) var(--easing);
+    }
+    .mobile-nav.active {
+      max-height: 400px;
+    }
+    .mobile-nav li {
+      margin: 10px 0;
+      text-align: center;
+    }
+    .mobile-nav li a {
+      color: #fff;
+      font-size: 18px;
+    }
+    /* Dark Mode Toggle Button */
+    .dark-mode-toggle {
+      background: transparent;
+      border: 2px solid #fff;
+      color: #fff;
+      padding: 5px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background var(--transition-speed);
+    }
+    .dark-mode-toggle:hover {
+      background: var(--accent-color);
+    }
+    /* Hero Section */
+    .hero {
+      height: 100vh;
+      background: linear-gradient(var(--overlay-color), var(--overlay-color)), url('https://via.placeholder.com/1600x900') no-repeat center/cover;
+      background-attachment: fixed;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+      margin-top: 70px;
+      animation: fadeIn 1s var(--easing) forwards;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      padding: 0 20px;
+      animation: slideUp 1s var(--easing) forwards;
+    }
+    .hero h1 {
+      font-size: 4rem;
+      margin: 0;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    }
+    .hero p {
+      font-size: 1.5rem;
+      margin-top: 15px;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes slideUp {
+      from { transform: translateY(30px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    /* Main Content */
+    main {
+      padding: 100px 20px 60px;
+    }
+    .section {
+      text-align: center;
+      padding: 80px 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .section h2 {
+      font-size: 2.8rem;
+      margin-bottom: 20px;
+      position: relative;
+      display: inline-block;
+      animation: fadeIn 1s var(--easing) forwards;
+    }
+    .section h2::after {
+      content: '';
+      position: absolute;
+      width: 50%;
+      height: 4px;
+      background: var(--accent-color);
+      left: 25%;
+      bottom: -10px;
+      border-radius: 2px;
+      animation: expandLine 1s var(--easing) forwards;
+    }
+    @keyframes expandLine {
+      from { width: 0; }
+      to { width: 50%; }
+    }
+    .section p {
+      font-size: 1.1rem;
+      max-width: 900px;
+      margin: 20px auto 0;
+      line-height: 1.6;
+    }
+    /* Preview Cards (Gallery/Portfolio) */
+    .preview-cards {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin: 20px 0;
+      overflow-x: auto;
+      padding: 10px;
+    }
+    .preview-card {
+      flex: 0 0 300px;
+      background: var(--bg-color);
+      border: 2px solid var(--primary-color);
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      padding: 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.3s var(--easing), box-shadow 0.3s var(--easing);
+    }
+    .preview-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    }
+    @media (max-width: 600px) {
+      .preview-card {
+        flex: 0 0 90%;
+      }
+    }
+    /* Updated Preview Container */
+    #preview-container {
+      width: 90%;
+      max-width: 600px;
+      aspect-ratio: 16 / 9;
+      border: 2px solid var(--primary-color);
+      border-radius: 10px;
+      margin: 20px auto;
+      overflow: auto; /* Changed from hidden to auto for scrolling */
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+    }
+    /* Updated Iframe inside Preview Container */
+    #preview-container iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+    /* Contact Form */
+    .contact {
+      background-color: seashell;
+      padding: 80px 20px;
+    }
+    .contact form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .contact input,
+    .contact textarea {
+      width: 80%;
+      max-width: 500px;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 30px;
+      font-size: 1rem;
+      transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
+    }
+    .contact input:focus,
+    .contact textarea:focus {
+      border-color: var(--accent-color);
+      box-shadow: 0 0 8px rgba(0, 140, 186, 0.5);
+      outline: none;
+    }
+    .contact button {
+      background: var(--accent-color);
+      border: none;
+      padding: 12px 25px;
+      color: #fff;
+      font-size: 1rem;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: background var(--transition-speed);
+    }
+    .contact button:hover {
+      background: #007aa3;
+    }
+    /* Testimonials Slider */
+    .testimonials {
+      position: relative;
+      max-width: 800px;
+      margin: auto;
+      overflow: hidden;
+      height: 150px;
+    }
+    .testimonial {
+      opacity: 0;
+      transition: opacity var(--transition-speed) var(--easing);
+      position: absolute;
+      width: 100%;
+      padding: 20px;
+      box-sizing: border-box;
+      font-style: italic;
+    }
+    .testimonial.active {
+      opacity: 1;
+      position: relative;
+    }
+    /* Back to Top Button */
+    .back-to-top {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: var(--accent-color);
+      color: #fff;
+      border: none;
+      padding: 12px 15px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 18px;
+      transition: opacity var(--transition-speed);
+      opacity: 0;
+      visibility: hidden;
+    }
+    .back-to-top.show {
+      opacity: 1;
+      visibility: visible;
+    }
+    /* Additional Sections (Services, Blog, FAQ) */
+    .services {
+      background: #f9f9f9;
+      padding: 80px 20px;
+    }
+    .services .service-cards {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+    .service-card {
+      background: var(--bg-color);
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      width: 280px;
+      padding: 20px;
+      text-align: center;
+      transition: transform 0.3s var(--easing), box-shadow 0.3s var(--easing);
+    }
+    .service-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    }
+    .service-card h3 {
+      margin-top: 10px;
+      font-size: 1.5rem;
+    }
+    .blog {
+      background: #fff;
+      padding: 80px 20px;
+    }
+    .blog .blog-posts {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+    .blog-post {
+      background: var(--bg-color);
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      width: 300px;
+      overflow: hidden;
+      transition: transform 0.3s var(--easing), box-shadow 0.3s var(--easing);
+    }
+    .blog-post:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    }
+    .blog-post img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+    .blog-post .post-content {
+      padding: 15px;
+      text-align: left;
+    }
+    .blog-post h4 {
+      margin: 10px 0;
+      font-size: 1.3rem;
+    }
+    .blog-post p {
+      font-size: 0.9rem;
+      line-height: 1.4;
+    }
+    .faq {
+      background: #f4f4f4;
+      padding: 80px 20px;
+    }
+    .faq-item {
+      margin: 20px auto;
+      max-width: 800px;
+      border-bottom: 1px solid #ddd;
+      padding: 15px 0;
+    }
+    .faq-item h4 {
+      font-size: 1.2rem;
+      cursor: pointer;
+      position: relative;
+      padding-right: 30px;
+      transition: color var(--transition-speed);
+    }
+    .faq-item h4:hover {
+      color: var(--accent-color);
+    }
+    .faq-item p {
+      display: none;
+      margin: 10px 0 0;
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+    .faq-item.active p {
+      display: block;
+    }
+    .faq-item h4::after {
+      content: '+';
+      position: absolute;
+      right: 0;
+      top: 0;
+      font-size: 1.5rem;
+      transition: transform 0.3s var(--easing);
+    }
+    .faq-item.active h4::after {
+      transform: rotate(45deg);
+    }
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: #f4f4f4;
+    }
+    /* Chatbot Styles */
+    .chatbot-icon {
+      position: fixed;
+      bottom: 10px;
+      right: 10px;
+      width: 70px;
+      height: 70px;
+      background: #0078ff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease, background 0.3s ease;
+      z-index: 1000;
+    }
+    .chatbot-icon:hover {
+      transform: scale(1.1);
+      background: #005ecb;
+    }
+    .chatbot-icon img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      opacity: 0.95;
+    }
+    .chat-container {
+      position: fixed;
+      bottom: 100px;
+      right: 20px;
+      width: 350px;
+      max-width: 90%;
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+      transform: translateY(20px);
+      opacity: 0;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      z-index: 1000;
+    }
+    .chat-header {
+      background: #0078ff;
+      color: #fff;
+      padding: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: bold;
+    }
+    .chat-header span {
+      flex: 1;
+    }
+    .chat-header button {
+      background: transparent;
+      border: none;
+      color: #fff;
+      font-size: 20px;
+      cursor: pointer;
+    }
+    .chat-body {
+      max-height: 350px;
+      overflow-y: auto;
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .chat-message {
+      padding: 10px 14px;
+      border-radius: 16px;
+      max-width: 80%;
+      font-size: 14px;
+      line-height: 1.4;
+      animation: fadeIn 0.3s ease;
+    }
+    .bot-message {
+      background: #f1f1f1;
+      align-self: flex-start;
+    }
+    .user-message {
+      background: #0078ff;
+      color: #fff;
+      align-self: flex-end;
+    }
+    .typing {
+      font-style: italic;
+      color: #888;
+      animation: blink 1s infinite;
+    }
+    @keyframes blink {
+      50% { opacity: 0.3; }
+    }
+    /* Mobile Responsiveness */
+    @media (max-width: 600px) {
+      nav {
+        padding: 10px 15px;
+      }
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+      .hero p {
+        font-size: 1rem;
+      }
+      .service-cards, .blog-posts {
+        flex-direction: column;
+        align-items: center;
+      }
+      .chat-container {
+        width: 90%;
+        bottom: 80px;
+        right: 5%;
+      }
+      .nav-links {
+        display: none;
+      }
+      .hamburger {
+        display: block;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Main Content -->
+  <div id="content">
+    <a class="skip-link" href="#mainContent">Skip to content</a>
+    <header>
+      <nav>
+        <div class="logo">Cee Codes</div>
+        <ul class="nav-links">
+          <li><a href="#about">About</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#gallery">Portfolio</a></li>
+          <li><a href="#blog">Blog</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="#testimonials">Testimonials</a></li>
+        </ul>
+        <div>
+          <button class="dark-mode-toggle" id="darkModeToggle" aria-label="Toggle dark mode">Dark Mode</button>
+          <button class="hamburger" id="hamburgerBtn" aria-label="Toggle navigation">☰</button>
+        </div>
+      </nav>
+      <ul class="mobile-nav" id="mobileNav">
+        <li><a href="#about">About</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#gallery">Portfolio</a></li>
+        <li><a href="#blog">Blog</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#testimonials">Testimonials</a></li>
+      </ul>
+    </header>
+     
+    <main id="mainContent">
+      <!-- Hero Section -->
+      <section class="hero">
+        <div class="hero-content">
+          <h1>Welcome to Cee Codes</h1>
+          <p>Experience innovative digital creations.</p>
+        </div>
+      </section>
+      
+      <!-- About Section -->
+      <section id="about" class="section">
+        <h2>About Us</h2>
+        <p>
+          We are passionate about creating websites that are both visually stunning and highly functional. Our team delivers unique digital experiences that inspire and engage.
+        </p>
+      </section>
+      
+      <!-- Services Section -->
+      <section id="services" class="services">
+        <h2>Our Services</h2>
+        <div class="service-cards">
+          <div class="service-card">
+            <img style="width: 250px; height: 300px;" src="webdesign.jpg" alt="Design" />
+            <h3>Web Design</h3>
+            <p>Crafting visually appealing and user-friendly designs.</p>
+          </div>
+          <div class="service-card">
+            <img width="250px" height="300px" src="development.jpg" alt="E-commerce" />
+            <h3>SEO optimization</h3>
+            <p>Enhancing visibility and driving organic traffic.</p>
+          </div>
+          <div class="service-card">
+            <img width="250px" height="300px" src="shopping.jpg" alt="E-commerce" />
+            <h3>E-commerce</h3>
+            <p>Creating seamless online shopping experiences.</p>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Portfolio (Gallery) Section -->
+      <section id="gallery" class="section">
+        <h2>Our Portfolio</h2>
+        <div class="preview-cards">
+          <div class="preview-card" data-url="bot.html">
+            <h3>Project Two</h3>
+            <p>Click to preview project two.</p>
+          </div>
+          <div class="preview-card" data-url="e-commerce.html">
+            <h3>Project Three</h3>
+            <p>Click to preview project three.</p>
+          </div>
+        </div>
+        <div id="preview-container">
+          <iframe id="miniWebsite" src="" title="Project Preview" loading="lazy"></iframe>
+        </div>
+      </section>
+      
+      <!-- Blog Section -->
+      <section id="blog" class="blog">
+        <h2>Latest Blog Posts</h2>
+        <div class="blog-posts">
+          <div class="blog-post">
+            <img src="trends.jpg" alt="Blog Post 1" />
+            <div class="post-content">
+              <h4>Blog Post One</h4>
+              <p>Discover the latest trends in web development and design.</p>
+            </div>
+          </div>
+          <div class="blog-post">
+            <img src="online.jpg" alt="Blog Post 2" />
+            <div class="post-content">
+              <h4>Blog Post Two</h4>
+              <p>Learn about innovative strategies to boost your online presence.</p>
+            </div>
+          </div>
+          <div class="blog-post">
+            <img src="presence.jpg" alt="Blog Post 3" />
+            <div class="post-content">
+              <h4>Blog Post Three</h4>
+              <p>Insights on how to transform your digital experience.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Contact Section -->
+      <section id="contact" class="section contact">
+        <h2>Contact Us</h2>
+        <form action="send_email.php" method="post">
+          <input type="text" name="name" placeholder="Enter your Name" required />
+          <input type="email" name="email" placeholder="Enter your Email" required />
+          <textarea name="message" rows="5" placeholder="We would love to hear your message" required></textarea>
+          <button type="submit">Send Message</button>
+        </form>
+      </section>
+      
+      <!-- FAQ Section -->
+      <section id="faq" class="faq">
+        <h2>Frequently Asked Questions</h2>
+        <div class="faq-item">
+          <h4>What services do you offer?</h4>
+          <p>We offer web design, development, SEO optimization, and e-commerce solutions to bring your ideas to life.</p>
+        </div>
+        <div class="faq-item">
+          <h4>How long does a project take?</h4>
+          <p>Project timelines vary, but we strive to deliver high-quality results in a timely manner.</p>
+        </div>
+        <div class="faq-item">
+          <h4>Do you provide support after launch?</h4>
+          <p>Yes, we offer ongoing maintenance and support to ensure your website remains up-to-date.</p>
+        </div>
+      </section>
+      
+      <!-- Testimonials Section -->
+      <section id="testimonials" class="section">
+        <h2>Testimonials</h2>
+        <div class="testimonials" id="testimonial-slider">
+          <div class="testimonial active">"This is an awesome website!" - John Doe</div>
+          <div class="testimonial">"Great experience and design!" - Jane Smith</div>
+          <div class="testimonial">"Would recommend to everyone!" - Alex Johnson</div>
+          <div class="testimonial">"The art of perfection" - Peterson</div>
+        </div>
+      </section>
+    </main>
+    
+    <footer>
+      <p>&copy; 2025 Cee Codes. All rights reserved.</p>
+    </footer>
+    <button class="back-to-top" id="backToTop" aria-label="Back to top">↑</button>
+  </div>
+  
+  <!-- Scrolling Announcement Banner -->
+  <div class="announcement">
+    <p>Grand opening of Cee Codes - The Ultimate Digital Experience</p>
+  </div>
+  
+  <!-- Chatbot Code -->
+  <div class="chatbot-icon" id="chatbotIcon">
+    <img src="bot.jpg" alt="Bot Icon" />
+  </div>
+  <div class="chat-container" id="chatbot">
+    <div class="chat-header">
+      <span>Ultimate FAQ Bot</span>
+      <button id="chatCloseBtn">&times;</button>
+    </div>
+    <div class="chat-body" id="chat-body">
+      <div class="chat-message bot-message">
+        Hello! I can define terms, tell time, date, share facts, quotes, and more. Try <em>help</em> to see what I can do.
+      </div>
+    </div>
+    <div class="chat-input">
+      <input type="text" id="user-input" placeholder="Type your question..." />
+      <button id="sendBtn">Send</button>
+    </div>
+  </div>
+  
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      /* Mobile Navigation Toggle */
+      const mobileNav = document.getElementById('mobileNav');
+      document.getElementById('hamburgerBtn').addEventListener('click', function() {
+        mobileNav.classList.toggle('active');
+      });
+      mobileNav.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => mobileNav.classList.remove('active'));
+      });
+      
+      /* Dark Mode Toggle */
+      const darkModeToggle = document.getElementById('darkModeToggle');
+      darkModeToggle.addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+        darkModeToggle.textContent = document.body.classList.contains('dark-mode') ? 'Light Mode' : 'Dark Mode';
+      });
+      
+      /* Preview Website in iframe using data attribute */
+      document.querySelectorAll('.preview-card').forEach(card => {
+        card.addEventListener('click', () => {
+          const url = card.getAttribute('data-url');
+          document.getElementById("miniWebsite").src = url;
+        });
+      });
+      
+      /* Back to Top Button functionality */
+      const backToTopButton = document.getElementById('backToTop');
+      window.addEventListener('scroll', () => {
+          window.scrollY > 300 ? backToTopButton.classList.add('show') : backToTopButton.classList.remove('show');
+      });
+      backToTopButton.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+      
+      /* Testimonials Slider */
+      let currentTestimonial = 0;
+      const testimonials = document.querySelectorAll('.testimonial');
+      setInterval(() => {
+        testimonials[currentTestimonial].classList.remove('active');
+        currentTestimonial = (currentTestimonial + 1) % testimonials.length;
+        testimonials[currentTestimonial].classList.add('active');
+      }, 5000);
+      
+      /* Scroll Animation using Intersection Observer */
+      const animatedElements = document.querySelectorAll('.section, .hero');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in-view');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1 });
+      animatedElements.forEach(el => observer.observe(el));
+      
+      /* FAQ Accordion functionality */
+      const faqItems = document.querySelectorAll('.faq-item');
+      faqItems.forEach(item => {
+        item.querySelector('h4').addEventListener('click', () => {
+          item.classList.toggle('active');
+        });
+      });
+      
+      /* Chatbot Functionality */
+      const chatContainer = document.getElementById("chatbot");
+      const chatBody = document.getElementById("chat-body");
+      const userInput = document.getElementById("user-input");
+      const sendBtn = document.getElementById("sendBtn");
+      const chatbotIcon = document.getElementById("chatbotIcon");
+      const chatCloseBtn = document.getElementById("chatCloseBtn");
+      
+      const randomFacts = [
+        "Honey never spoils.",
+        "Octopuses have three hearts.",
+        "A day on Venus is longer than a year on Venus.",
+        "Bananas are berries, but strawberries aren't.",
+        "Water can boil and freeze at the same time."
+      ];
+      const motivationalQuotes = [
+        "Believe you can and you're halfway there.",
+        "Keep going. Be all in.",
+        "Stay positive, work hard, make it happen.",
+        "Don't watch the clock; do what it does. Keep going.",
+        "Success is not for the lazy."
+      ];
+      
+      function toggleChat() {
+        if (chatContainer.style.display === "flex") {
+          chatContainer.style.transform = "translateY(20px)";
+          chatContainer.style.opacity = "0";
+          setTimeout(() => chatContainer.style.display = "none", 300);
+        } else {
+          chatContainer.style.display = "flex";
+          setTimeout(() => {
+            chatContainer.style.transform = "translateY(0)";
+            chatContainer.style.opacity = "1";
+          }, 10);
+        }
+      }
+      chatbotIcon.addEventListener("click", toggleChat);
+      chatCloseBtn.addEventListener("click", toggleChat);
+      
+      function sendMessage() {
+        const message = userInput.value.trim();
+        if (!message) return;
+        addMessage(message, "user");
+        userInput.value = "";
+      
+        const typingIndicator = document.createElement("div");
+        typingIndicator.classList.add("chat-message", "bot-message", "typing");
+        typingIndicator.textContent = "Typing...";
+        chatBody.appendChild(typingIndicator);
+        chatBody.scrollTop = chatBody.scrollHeight;
+      
+        setTimeout(() => {
+          chatBody.removeChild(typingIndicator);
+          processMessage(message);
+        }, 1000);
+      }
+      
+      sendBtn.addEventListener("click", sendMessage);
+      userInput.addEventListener("keypress", (event) => {
+        if (event.key === "Enter") sendMessage();
+      });
+      
+      function processMessage(message) {
+        const lowerMessage = message.toLowerCase();
+        if (lowerMessage.startsWith("define ")) {
+          const term = message.slice(7).trim();
+          if(term) {
+            searchWiki(term);
+          } else {
+            addMessage("Please provide a term to define.", "bot");
+          }
+        } else if (lowerMessage.includes("time")) {
+          const currentTime = new Date().toLocaleTimeString();
+          addMessage("Current time: " + currentTime, "bot");
+        } else if (lowerMessage.includes("date")) {
+          const currentDate = new Date().toDateString();
+          addMessage("Today's date: " + currentDate, "bot");
+        } else if (lowerMessage.includes("fact")) {
+          const fact = randomFacts[Math.floor(Math.random() * randomFacts.length)];
+          addMessage(fact, "bot");
+        } else if (lowerMessage.includes("quote")) {
+          const quote = motivationalQuotes[Math.floor(Math.random() * motivationalQuotes.length)];
+          addMessage(quote, "bot");
+        } else if (lowerMessage.includes("help")) {
+          addMessage("I can help with the following commands:<br>" +
+                     "<strong>define [term]</strong> - Get the definition from Wikipedia<br>" +
+                     "<strong>time</strong> - Current time<br>" +
+                     "<strong>date</strong> - Today's date<br>" +
+                     "<strong>fact</strong> - A random fun fact<br>" +
+                     "<strong>quote</strong> - A motivational quote", "bot");
+        } else {
+          addMessage("I'm not sure about that. Try <em>help</em> to see what I can do.", "bot");
+        }
+      }
+      
+      function searchWiki(query) {
+        fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(query)}`)
+          .then(response => response.json())
+          .then(data => {
+            if (data.extract) {
+              addMessage(data.extract, "bot");
+            } else {
+              addMessage("Sorry, I couldn't find a definition for that.", "bot");
+            }
+          })
+          .catch(() => {
+            addMessage("Error fetching data. Please try again later.", "bot");
+          });
+      }
+      
+      function addMessage(text, sender) {
+        const messageDiv = document.createElement("div");
+        messageDiv.classList.add("chat-message", sender === "bot" ? "bot-message" : "user-message");
+        messageDiv.innerHTML = text;
+        chatBody.appendChild(messageDiv);
+        chatBody.scrollTop = chatBody.scrollHeight;
+      }
+    });
+  </script>
+</body>
+</html>
